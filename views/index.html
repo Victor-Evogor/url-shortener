@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>URL Shortener</title>
+    <link rel="icon" href="scissors.svg" type="image/x-icon">
+    <style>
+        body{
+            margin: 0;
+            padding: 0;
+        }
+
+        h1, h2{
+            text-align: center;
+        }
+
+        form{
+            text-align: center;
+            width: 70%;
+            margin: 0 auto;
+        }
+
+        input[type="text"]{
+            padding: 3px 1px;
+            display: block;
+            width: 100%;
+            font-size: large;
+            border-radius: 5px;
+        }
+
+        input[type="submit"]{
+            padding: 3px 5px;
+            font-size: large;
+        }
+
+        p{
+            text-align: center;
+        }
+    </style>
+  </head>
+  <body>
+    <h1>URL Shortener</h1>
+    <form>
+      <label for="long-url">Enter a long URL:</label><br />
+      <input type="text" id="long-url" name="long-url" required /><br /><br />
+      <input type="submit" value="Shorten URL" />
+    </form>
+
+    <h2>Shortened URL:</h2>
+    <p>
+        <a id="short-url" target="_blank"></a>
+    </p>
+
+    <script>
+      // Function to handle form submission
+      async function shortenUrl(event) {
+        event.preventDefault(); // Prevent the form from submitting
+
+        // Get the input value
+        const longUrlInput = document.getElementById("long-url");
+        const longUrl = longUrlInput.value;
+
+        // Perform URL shortening logic here (e.g., make an API request)
+        const payload = {
+          url: longUrl,
+        };
+        const response = await fetch("/api/register", {
+          method: "POST",
+          body: JSON.stringify(payload),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }).then((data) => data.text());
+        const shortUrl = window.location.href + response;
+
+        // Display the shortened URL
+        const shortUrlDisplay = document.getElementById("short-url");
+        shortUrlDisplay.innerText = "Shortened URL: " + shortUrl;
+        shortUrlDisplay.href = shortUrl;
+      }
+
+      // Attach the submit event listener to the form
+      const form = document.querySelector("form");
+      form.addEventListener("submit", shortenUrl);
+    </script>
+  </body>
+</html>
