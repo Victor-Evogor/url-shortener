@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon --exec ts-node index.ts",
-    "build": "chmod +x build.sh; ./build.sh",
+    "build": "./build.sh",
     "start": "node build/index.js"
   },
   "keywords": [],

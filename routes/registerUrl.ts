@@ -17,7 +17,8 @@ export const registerUrl = async ({ request, response }: Context) => {
   const existingUrl = await url.findOne({
     where: {
       name: body.url
-    }
+    },
+    attributes: ["id", "name", "alias"]
   })
   
   if(existingUrl){
@@ -29,13 +30,14 @@ export const registerUrl = async ({ request, response }: Context) => {
 
    await url.create({
     name: body.url,
-    alias: generateRandomString(4)
+    alias: generateRandomString(4),
   });
 
   const newUrl = await url.findOne({
     where: {
       name: body.url
-    }
+    },
+    attributes: ["id", "name", "alias"]
   });
   
   response.body = newUrl?.dataValues.alias; 

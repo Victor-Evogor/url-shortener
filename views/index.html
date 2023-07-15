@@ -51,13 +51,26 @@
     </p>
 
     <script>
+      const startsWithHttp = /^(http:\/\/|https:\/\/)/;
       // Function to handle form submission
       async function shortenUrl(event) {
         event.preventDefault(); // Prevent the form from submitting
 
         // Get the input value
         const longUrlInput = document.getElementById("long-url");
-        const longUrl = longUrlInput.value;
+        let longUrl = longUrlInput.value;
+
+        // turning the string into a url
+
+        // has a dot in between
+        if(!/\w+\.\w+/.test(longUrl)){
+          alert(`${longUrl} is not a valid link, missing top level domain`)
+          return
+        }
+
+        if(!startsWithHttp.test(longUrl)){
+          longUrl = "https://" + longUrl;
+        }
 
         // Perform URL shortening logic here (e.g., make an API request)
         const payload = {
